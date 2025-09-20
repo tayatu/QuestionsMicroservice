@@ -5,6 +5,7 @@ import com.tayatu.QuestionMicroservice.model.QuestionWrapper;
 import com.tayatu.QuestionMicroservice.model.ResonseObject;
 import com.tayatu.QuestionMicroservice.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,9 @@ public class QuestionsController {
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    Environment environment;
 
     @GetMapping("/allQuestions")
     public ResponseEntity<List<Question>> getAllQuestions() {
@@ -37,8 +41,9 @@ public class QuestionsController {
         return questionService.getQuestionsForQuiz(category, numQ);
     }
 
-    @GetMapping("/getQuestions")
+    @PostMapping("/getQuestions")
     public ResponseEntity<List<QuestionWrapper>> getQuestion(@RequestBody List<Integer> questionIds){
+        System.out.println(environment.getProperty("local.server.port"));
         return  questionService.getQuestion(questionIds);
     }
 
